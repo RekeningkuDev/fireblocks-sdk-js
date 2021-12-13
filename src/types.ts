@@ -248,6 +248,7 @@ export interface TransactionResponse {
         name?: string;
         subType?: string;
     };
+    sourceAddress?: string;
     destination: {
         id: string;
         type: PeerType;
