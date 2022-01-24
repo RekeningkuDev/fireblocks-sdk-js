@@ -116,6 +116,15 @@ export class FireblocksSDK {
     }
 
     /**
+     * Gets a single vault account asset balance after forcing refresh from the blockchain
+     * @param vaultAccountId The vault account ID
+     * @param assetId The ID of the asset to get
+     */
+    public async refreshVaultAssetBalance(vaultAccountId: string, assetId: string, requestOptions?: RequestOptions): Promise<AssetResponse> {
+        return await this.apiClient.issuePostRequest(`/v1/vault/accounts/${vaultAccountId}/${assetId}/balance`, "{}", requestOptions);
+    }
+
+    /**
      * Gets deposit addresses for an asset in a vault account
      * @param vaultAccountId The vault account ID
      * @param assetId The ID of the asset for which to get the deposit address
@@ -823,6 +832,17 @@ export class FireblocksSDK {
      */
     public async resendWebhooks(requestOptions?: RequestOptions): Promise<ResendWebhooksResponse> {
         return await this.apiClient.issuePostRequest("/v1/webhooks/resend", {}, requestOptions);
+    }
+
+    /**
+     * Resend transaction webhooks
+     * @param txId The transaction for which the message is sent
+     * @param resendCreated If true a webhook will be sent for the creation of the transaction
+     * @param resendStatusUpdated If true a webhook will be sent for the status of the transaction
+     */
+     public async resendTransactionWebhooksById(txId: string, resendCreated?: boolean, resendStatusUpdated?: boolean, requestOptions?: RequestOptions): Promise<ResendWebhooksResponse> {
+        const body = { resendCreated, resendStatusUpdated };
+        return await this.apiClient.issuePostRequest(`/v1/webhooks/resend/${txId}`, body, requestOptions);
     }
 
     /**

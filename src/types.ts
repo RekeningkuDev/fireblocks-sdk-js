@@ -242,19 +242,9 @@ export interface PageDetails {
 export interface TransactionResponse {
     id: string;
     assetId: string;
-    source: {
-        id: string;
-        type: PeerType;
-        name?: string;
-        subType?: string;
-    };
+    source: TransferPeerPathResponse;
     sourceAddress?: string;
-    destination: {
-        id: string;
-        type: PeerType;
-        name?: string;
-        subType?: string;
-    };
+    destination: TransferPeerPathResponse;
     amount: number;
     /**
      * @deprecated Replaced by "networkFee"
@@ -281,17 +271,54 @@ export interface TransactionResponse {
     requestedAmount: number;
     serviceFee?: number;
     feeCurrency: string;
-    amlScreeningResult?: {
-        provider?: string;
-        payload: any;
-        screeningStatus: string;
-        bypassReason: string;
-        timestamp: number;
-    };
+    amlScreeningResult?: AmlScreeningResult;
+    customerRefId?: string;
+    amountInfo?: AmountInfo;
+    feeInfo?: FeeInfo;
     signedMessages?: SignedMessageResponse[];
+    extraParameters?: any;
     externalTxId?: string;
+    destinations?: TransactionResponseDestination[];
     blockInfo?: BlockInfo;
     authorizationInfo?: AuthorizationInfo;
+    index?: number;
+}
+
+export interface AmountInfo {
+    amount?: string;
+    requestedAmount?: string;
+    netAmount?: string;
+    amountUSD?: string;
+}
+
+export interface FeeInfo {
+    networkFee?: string;
+    serviceFee?: string;
+}
+
+export interface TransactionResponseDestination {
+    amount?: string;
+    amountUSD?: string;
+    amlScreeningResult?: AmlScreeningResult;
+    destination?: TransferPeerPathResponse;
+    authorizationInfo?: AuthorizationInfo;
+}
+
+export interface AmlScreeningResult {
+    provider?: string;
+    payload: any;
+    screeningStatus: string;
+    bypassReason: string;
+    timestamp: number;
+}
+
+export interface TransferPeerPathResponse {
+    id: string;
+    type: PeerType;
+    name?: string;
+    subType?: string;
+    virtualType?: VirtualType;
+    virtualId?: string;
 }
 
 export interface AuthorizationInfo {
